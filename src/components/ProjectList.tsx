@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Button, Form, Header, Modal, Input } from "semantic-ui-react";
+import { Button, Form, Header, Modal, Input, Dropdown } from "semantic-ui-react";
 import styles from "../styles/ProjectList.module.scss";
 import CustomIcon from "./CustomIcon";
 import cn from "classnames";
@@ -9,6 +9,7 @@ import { useHistory } from "react-router";
 
 function ProjectList() {
     const [createProjectOpen, setCreateProjectOpen] = useState(false);
+    const [protocol, setProtocol] = useState("https://");
     const [errors, setErrors] = useState<any>({});
     const history = useHistory();
 
@@ -54,11 +55,11 @@ function ProjectList() {
             newErrors.title = "Indiquez le titre de votre projet";
         }
 
-        if(!trackerContent.title && projectContent.title) {
+        if (!trackerContent.title && projectContent.title) {
             trackerContent.title = projectContent.title;
         }
 
-        if(!trackerContent.url) {
+        if (!trackerContent.url) {
             newErrors.trackerUrl = "Indiquez l'adresse du site internet à surveiller avec ce traqueur";
         }
 
@@ -68,17 +69,22 @@ function ProjectList() {
             return;
         }
 
-        trackerContent.url = "https://" + trackerContent.url;
+        trackerContent.url = protocol + trackerContent.url;
 
-        createProject({ 
+        createProject({
             variables: {
                 projectTitle: projectContent.title,
                 projectComment: projectContent.comment,
                 firstTrackerTitle: trackerContent.title,
                 firstTrackerUrl: trackerContent.url
-            } 
+            }
         })
     }
+
+    let httpOptions = [
+        { key: "https", text: "https://", value: "https://" },
+        { key: "http", text: "http://", value: "http://" },
+    ]
 
     if (loading) {
         return <div>...chargement</div>
@@ -111,14 +117,15 @@ function ProjectList() {
             </div>
         </div>
         <Modal open={createProjectOpen} onClose={() => setCreateProjectOpen(false)} className={styles.modal}>
-            <Modal.Header style={{background: 'transparent'}}>Créer un projet</Modal.Header>
-            <Modal.Content style={{background: 'transparent'}}>
+            <Modal.Header style={{ background: 'transparent' }}>Créer un projet</Modal.Header>
+            <Modal.Content style={{ background: 'transparent' }}>
                 <Form onSubmit={onSubmit}>
                     <Form.Input inverted fluid error={errors.title} type="text" label="Titre de votre projet" name="projectTitle" required />
                     <Form.TextArea error={errors.comment} label="Commentaire" name="projectComment"></Form.TextArea>
                     <Header>Ajoutez votre premier traqueur à ce projet</Header>
-                    <Input fluid error={errors.trackerUrl} type="text" label="https://" placeholder="Site à surveiller" name="trackerUrl" required />
-                    <div style={{height: '16px'}}></div>
+                    <Input fluid error={errors.trackerUrl} type="text" label={
+                        <Dropdown value={protocol} options={httpOptions} onChange={(ev, d) => setProtocol(d.value as string)} />} placeholder="Site à surveiller" name="trackerUrl" required />
+                    <div style={{ height: '16px' }}></div>
                     <Form.Input fluid error={errors.trackerTitle} type="text" label="Titre du traqueur" name="trackerTitle" required />
                     <Form.Button loading={result.loading} disabled={result.loading} color="orange">
                         Créer le projet
