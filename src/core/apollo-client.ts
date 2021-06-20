@@ -1,9 +1,10 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { AUTH_TOKEN } from "./index";
+import { isDev } from "./utils";
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:4000',
+    uri: isDev() ? 'http://localhost:4000' : "https://api.traffichub.co",
     credentials: 'include'
 });
 
@@ -18,7 +19,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 export const apolloClient = new ApolloClient({
-    uri: "http://localhost:4000",
+    uri: isDev() ? "http://localhost:4000" : "https://api.traffichub.co",
     link: authLink.concat(httpLink),
     cache: new InMemoryCache()
 });
