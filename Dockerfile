@@ -8,7 +8,7 @@ WORKDIR /usr/app
 
 COPY package*.json .
 
-COPY ./build .
+COPY build build
 
 ENV PORT=80
 
