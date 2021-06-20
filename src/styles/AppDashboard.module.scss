@@ -1,0 +1,57 @@
+@import "./theme.scss";
+
+.dashboard {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 56px auto;
+    background-color: #f0f4f7;
+}
+
+.header {
+    background: $navy;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 250px auto;
+
+    .logoWrapper {
+        background: $navy_dark;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        * {
+            color: $orange;
+        }
+    }
+
+    .headerContent {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0px 8px;
+
+        * {
+            color: $white;
+        }
+
+        .item {
+            margin: 0px 16px;
+        }
+
+        .username {
+            font-size: 14px;
+        }
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow: auto;
+}

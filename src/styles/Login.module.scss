@@ -1,0 +1,146 @@
+@import "./values.scss";
+
+.login {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 16px auto;
+    grid-template-rows: 100%;
+    box-sizing: border-box;
+
+    * {
+        box-sizing: border-box;
+    }
+    
+    .left {
+        background-color: #000;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+
+        .create_account {
+            color: white;
+            h1, span, button {
+                color: white;
+            }
+
+            .actions {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            span.create {
+                padding: 8px 16px;
+                min-width: 128px;
+                font-size: 16px;
+                font-family: inherit;
+                border: none;
+                background: $blue;
+                text-align: center;
+                cursor: pointer;
+                text-transform: uppercase;
+                border-radius: 8px;
+                transition: all 250ms linear;
+
+                &:hover {
+                    box-shadow: 1px 1px 16px $blue;
+                }
+            }
+        }
+
+        * {
+            display: none;
+        }
+    }
+
+    .content_wrapper {
+        overflow: auto;
+
+        .content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+    }
+}
+
+.logo_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.login_form {
+    width: 100%;
+
+    .login_btn {
+        background: #476cd0;
+        font-family: inherit;
+        border: none;
+        color: white;
+        height: 54px;
+        width: 100%;
+        border-radius: 4px;
+        transition: all 250ms linear;
+
+        &:hover {
+            box-shadow: 1px 1px 16px #476cd0;
+        }
+    }
+}
+
+.helps {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+@media screen and (min-width: 640px) {
+    
+    .login {
+        grid-template-columns: 25px auto;
+    }
+}
+
+@media screen and (min-width: 760px) {
+    
+    .login {
+        grid-template-columns: 25% auto;
+    }
+}
+
+@media screen and (min-width: 968px) {
+    
+    .login {
+        grid-template-columns: 40% auto;
+
+        .left {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            * {
+                display: block;
+            }
+        }
+    }
+
+    .login_form {
+        width: min(480px, 100%);
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    
+    .login {
+        grid-template-columns: 45% auto;
+    }
+}
