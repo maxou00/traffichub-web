@@ -1,0 +1,32 @@
+.page {
+    .head {
+        padding: 16px 8px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+
+        h3 {
+            padding: 0;
+            margin: 0;
+        }
+    }
+}
+
+.stats {
+    min-height: 160px;
+    padding: 24px;
+
+    .stats__visitors {
+        width: 100%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 1px 1px 16px #ddd;
+
+        svg {
+            width: 100%;
+            height: 400px;
+            overflow: scroll;
+        }
+    }
+}

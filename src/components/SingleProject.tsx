@@ -37,6 +37,12 @@ function SingleProject(props: Props) {
         return <p>...chargement</p>
     }
     return <div className={styles.page}>
+        <div className={styles.page__content}>
+            {
+                selectedTracker &&
+                <TrackingPoint tracker={selectedTracker} project={data.project} />
+            }
+        </div>
         <div className={styles.page__left}>
             <div className={styles.left__header}>
                 <Header>
@@ -47,7 +53,7 @@ function SingleProject(props: Props) {
                 {
                     data.project.trackers.map((t: any) => {
                         let active = selectedTracker && selectedTracker.id === t.id
-                        return <List.Item key={t.id} active={active} className={cn({[styles.menu_item]: true, [styles.active]: active })} onClick={() => goToSingleTracker(t)}>
+                        return <List.Item key={t.id} active={active} className={cn({ [styles.menu_item]: true, [styles.active]: active })} onClick={() => goToSingleTracker(t)}>
                             <List.Content>
                                 <List.Header>{t.title}</List.Header>
                                 <List.Description>{t.url}</List.Description>
@@ -57,16 +63,6 @@ function SingleProject(props: Props) {
                 }
             </List>
             <Button fluid color="orange">Nouveau traqueur</Button>
-        </div>
-        <div className={styles.page__content}>
-            <div className={styles.project_header}>
-                <h1>{data.project.title}</h1>
-                <span>{data.project.comment}</span>
-            </div>
-            {
-                selectedTracker &&
-                <TrackingPoint tracker={selectedTracker}/>
-            }
         </div>
     </div>
 
