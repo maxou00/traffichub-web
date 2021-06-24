@@ -4,22 +4,23 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: auto 320px;
+    grid-template-columns: auto;
 }
 
-.page__left {
-    //background-color: white;
-    //box-shadow: 1px 0px 8px #ccc;
+.page__side {
+    background-color: white;
     padding: 8px;
+    display: none;
 }
 
-.left__header {
+.side__header {
     padding: 8px;
     border-bottom: 1px solid #ddd;
 }
 
 .page__content {
     padding: 8px;
+    overflow: auto;
 }
 
 .project_header {
@@ -53,5 +54,16 @@
         background: #e3f2fd;
         color: $navy;
         border-radius: 4px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+
+    .page {
+        grid-template-columns: 250px auto;
+    }
+
+    .page__side {
+        display: block;
     }
 }

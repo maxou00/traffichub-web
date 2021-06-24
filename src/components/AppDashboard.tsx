@@ -30,7 +30,7 @@ function AppDashboard() {
         if (error) {
             history.replace("/login");
         }
-    }, [error]);
+    }, [error, history]);
 
     if (error) {
         return <></>

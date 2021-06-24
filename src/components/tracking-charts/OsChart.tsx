@@ -33,6 +33,8 @@ export default function OsChart(props: Props) {
 
         let svg = select(osRef.current)
 
+        svg.selectAll(".arc").remove();
+
         let offset = 40;
         let svgWidth = parseFloat(svg.style('width'));
         let svgHeight = parseFloat(svg.style('height'));
@@ -47,12 +49,10 @@ export default function OsChart(props: Props) {
         let g = svg.select(".pie")
             .attr("transform", `translate(${center.x},${center.y})`)
 
-        console.log(arrayDataset.map((e) => e[2]));
-
         let colors = scaleOrdinal(arrayDataset.map((e) => e[2]))
         
         let arcPath = arc()
-            .innerRadius(radius - 60)
+            .innerRadius(radius - (radius/3))
             .outerRadius(radius);
 
         let pieData = pie().value((d: any)=> d[1])(arrayDataset as any)
@@ -62,7 +62,8 @@ export default function OsChart(props: Props) {
             .enter()
             .append("g")
             .attr("class", "arc")
-            
+        
+
         arcs.append("path")
             .attr("fill", (d,i) => colors(i+"") as any)
             .attr("d", arcPath as any);
@@ -71,6 +72,15 @@ export default function OsChart(props: Props) {
 
     useEffect(() => {
         buildOsBar();
+        const call = (ev: any) => {
+            buildOsBar();
+        }
+
+        window.addEventListener("resize", call);
+
+        return () => {
+            window.removeEventListener("resize", call);
+        }
     }, [buildOsBar]);
 
     return <svg ref={osRef}>

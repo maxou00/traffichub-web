@@ -96,7 +96,7 @@ function TrackingPoint(props: Props) {
             data && data.tracker.visitors.total > 0 && <div className={styles.visitors_counter_wrapper}>
                 <span>
                     <span className={styles.counter}>{data.tracker.visitors.total}</span>
-                    <span>Visites enrégistrées</span>
+                    <span>Visites</span>
                 </span>
             </div>
         }

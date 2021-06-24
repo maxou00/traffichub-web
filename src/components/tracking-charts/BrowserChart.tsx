@@ -27,6 +27,8 @@ export default function BrowserChart(props: Props) {
 
         let svg = select(browserRef.current)
 
+        svg.selectAll(".bar").remove();
+        
         let offset = 40;
         let svgWidth = parseFloat(svg.style('width'));
         let svgHeight = parseFloat(svg.style('height'));
@@ -60,8 +62,8 @@ export default function BrowserChart(props: Props) {
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", (d) => { console.log(bandScale(d.name)); return bandScale(d.name) as any })
-            .attr("y", (d) => { console.log(counterScale(d.count)); return counterScale(d.count) })
+            .attr("x", (d) => { return bandScale(d.name) as any })
+            .attr("y", (d) => { return counterScale(d.count) })
             .attr("width", bandScale.bandwidth())
             .attr("height", (d) => { return zone.h - counterScale(d.count) })
             .attr("stroke-width", 2)
@@ -72,6 +74,15 @@ export default function BrowserChart(props: Props) {
 
     useEffect(() => {
         buildBrowserBar();
+        const call = (ev: any) => {
+            buildBrowserBar();
+        }
+
+        window.addEventListener("resize", call);
+
+        return () => {
+            window.removeEventListener("resize", call);
+        }
     }, [buildBrowserBar]);
 
     return <svg ref={browserRef}>

@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/Singleproject.module.scss";
 import { Button, Header, List } from "semantic-ui-react";
 import { useHistory } from "react-router";
@@ -13,6 +13,7 @@ interface Props {
 function SingleProject(props: Props) {
     const [selectedTracker, setSelectedTracker] = useState<any>(undefined);
     const history = useHistory();
+
     const { data, loading, error } = useQuery(gql`
         {
             project(id: "${props.id}") {
@@ -29,6 +30,12 @@ function SingleProject(props: Props) {
         }
     `);
 
+    useEffect(() => {
+        if(data && data.project.trackers[0]) {
+            goToSingleTracker(data.project.trackers[0]);
+        }
+    }, [data]);
+
     function goToSingleTracker(tracker: any) {
         setSelectedTracker(tracker);
     }
@@ -37,14 +44,8 @@ function SingleProject(props: Props) {
         return <p>...chargement</p>
     }
     return <div className={styles.page}>
-        <div className={styles.page__content}>
-            {
-                selectedTracker &&
-                <TrackingPoint tracker={selectedTracker} project={data.project} />
-            }
-        </div>
-        <div className={styles.page__left}>
-            <div className={styles.left__header}>
+        <div className={styles.page__side}>
+            <div className={styles.side__header}>
                 <Header>
                     Traqueurs
                 </Header>
@@ -63,6 +64,12 @@ function SingleProject(props: Props) {
                 }
             </List>
             <Button fluid color="orange">Nouveau traqueur</Button>
+        </div>
+        <div className={styles.page__content}>
+            {
+                selectedTracker &&
+                <TrackingPoint tracker={selectedTracker} project={data.project} />
+            }
         </div>
     </div>
 

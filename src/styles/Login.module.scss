@@ -1,4 +1,4 @@
-@import "./values.scss";
+@import "./theme.scss";
 
 .login {
     width: 100vw;
@@ -13,7 +13,7 @@
     }
     
     .left {
-        background-color: #000;
+        background-color: $primary;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -37,7 +37,7 @@
                 font-size: 16px;
                 font-family: inherit;
                 border: none;
-                background: $blue;
+                background: $secondary;
                 text-align: center;
                 cursor: pointer;
                 text-transform: uppercase;
@@ -79,7 +79,7 @@
     width: 100%;
 
     .login_btn {
-        background: #476cd0;
+        background: $primary;
         font-family: inherit;
         border: none;
         color: white;
@@ -89,7 +89,7 @@
         transition: all 250ms linear;
 
         &:hover {
-            box-shadow: 1px 1px 16px #476cd0;
+            box-shadow: 1px 1px 16px $primary;
         }
     }
 }

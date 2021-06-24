@@ -1,4 +1,4 @@
-import { axisBottom, axisLeft, curveNatural, line, max, scaleLinear, scaleTime, select } from "d3";
+import { axisBottom, axisLeft, curveNatural, line, max, min, scaleLinear, scaleTime, select } from "d3";
 import { useEffect } from "react";
 import { createRef, useCallback } from "react";
 
@@ -40,6 +40,8 @@ export default function VisitorChart(props: Props) {
         let zoneFraction = (zone.w - offset) / props.visitors.groups.length;
 
         let yMaxValue = max(props.visitors.groups, (d: any) => d.count) || "";
+        let lowestDate = min(props.visitors.groups, (d:any) => d.from);
+        let highestDate = max(props.visitors.groups, (d) => d.to);
 
         let mapped = props.visitors.groups.map((frame: any, i: number) => {
             let ratio = frame.count / parseInt(yMaxValue);
@@ -49,7 +51,7 @@ export default function VisitorChart(props: Props) {
         })
 
         let amountScale = scaleLinear().domain([parseInt(yMaxValue), 0]).range([offset, zone.h]);
-        let dateScale = scaleTime().domain([props.from.getTime(), props.to.getTime()]).range([offset, zone.w]).nice();
+        let dateScale = scaleTime().domain([lowestDate, highestDate]).range([offset, zone.w]).nice();
 
         let x_axis: any = axisBottom(dateScale);
         let y_axis: any = axisLeft(amountScale);
@@ -67,15 +69,24 @@ export default function VisitorChart(props: Props) {
             svg
                 .selectAll(".curve")
                 .attr("d", curve)
-                .attr("stroke-width", 2.5)
+                .attr("stroke-width", 1.8)
                 .attr("fill", "transparent")
                 .attr("stroke", "url(#curveGradient)")
         }
-    }, [visitorsRef, props, props.from, props.to]);
-
+    }, [visitorsRef, props]);
 
     useEffect(() => {
         buildVisitorsCurve();
+    
+        const call = (ev: any) => {
+            buildVisitorsCurve();
+        }
+
+        window.addEventListener("resize", call);
+
+        return () => {
+            window.removeEventListener("resize", call);
+        }
     }, [buildVisitorsCurve]);
 
     return <svg ref={visitorsRef}>
