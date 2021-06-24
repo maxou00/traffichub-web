@@ -2,9 +2,12 @@ import { gql, useQuery } from "@apollo/client";
 import React, { createRef } from "react";
 import { Button, Icon, Dropdown, Input, Popup, Grid, Form, Divider } from "semantic-ui-react";
 import { isDev } from "../core/utils";
-import { axisBottom, axisLeft, curveNatural, line, max, min, scaleLinear, scaleTime, select } from "d3";
+import { axisBottom, axisLeft, curveNatural, line, max, min, scaleBand, scaleLinear, scaleTime, select } from "d3";
 import styles from "../styles/TrackingPoint.module.scss";
 import { timeframe } from "../core/timeframes";
+import VisitorChart from "./tracking-charts/VisitorChart";
+import BrowserChart from "./tracking-charts/BrowserChart";
+import OsChart from "./tracking-charts/OsChart";
 
 interface Props {
     project: any;
@@ -16,95 +19,27 @@ function TrackingPoint(props: Props) {
 
     const [from, setFrom] = React.useState(new Date(Date.parse("2021-06-20")));
     const [to, setTo] = React.useState(new Date(Date.now()));
-    const [frameSize, setFrameSize] = React.useState([1, "h"]);
-
-    const visitorsRef = createRef<SVGSVGElement>();
+    const [frameSize, setFrameSize] = React.useState([30, "m"]);
 
     const { data, loading, error } = useQuery(gql`
         {
             tracker(id: "${props.tracker.id}") {
                 visitors(timeframe: ${timeframe(frameSize[0] as number, frameSize[1] as string)}) {
                     total
+                    browser
+                    os
                     groups {
                         from
                         to
-                        data {
-                            id
-                            pageTitle
-                        }
+                        count
                     }
                 }
             }
         }
     `);
 
-    React.useEffect(() => {
-        buildVisitors();
-        document.addEventListener("resize",(ev) => {
-            alert("resized");
-        });
-    }, [data]);
-
     let url = `${isDev() ? "http://localhost:4000" : "https://api.traffichub.co"}/report/${props.tracker.tag}.js`
     let script = `<script src="${url}" defer></script>`;
-
-    function buildVisitors() {
-        if (!data || data.tracker.visitors.total === 0) {
-            return;
-        }
-
-        let svg = select(visitorsRef.current)
-
-        let offset = 40;
-        let svgWidth = parseFloat(svg.style('width'));
-        let svgHeight = parseFloat(svg.style('height'));
-
-        let zone = {
-            x: offset,
-            y: offset,
-            w: svgWidth - offset,
-            h: svgHeight - 2 * offset
-        }
-
-        let zoneFraction = zone.w / data.tracker.visitors.groups.length;
-
-        let yMinValue = min(data.tracker.visitors.groups, (d: any) => d.data.length) || "";
-        let yMaxValue = max(data.tracker.visitors.groups, (d: any) => d.data.length) || "";
-
-        let mapped = data.tracker.visitors.groups.map((frame: any, i: number) => {
-            let ratio = frame.data.length / data.tracker.visitors.total;
-            let yValue = zone.h - (ratio * zone.h)
-            let xValue = offset + (i * zoneFraction);
-            return [xValue , yValue];
-        })
-
-        let amountScale = scaleLinear().domain([parseInt(yMaxValue), 0]).range([offset, zone.h + offset]);
-        let dateScale = scaleTime().domain([from.getTime(), to.getTime()]).range([offset, zone.w ]).nice();
-
-        let x_axis: any = axisBottom(dateScale);
-        let y_axis: any = axisLeft(amountScale);
-
-        svg.select("g.axisBottom")
-        .attr("transform", `translate(0, ${zone.h + offset})`)
-        .call(x_axis)
-
-        svg.select("g.axisLeft")
-        .attr("transform", `translate(${offset})`)
-        .call(y_axis)
-
-        svg.on("resize", (ev) => {alert("Resized")})
-
-        let curve = line().curve(curveNatural)(mapped);
-        if(curve) {
-            svg
-            .selectAll(".curve")
-            .attr("d", curve)
-            .attr("stroke-width", 4)
-            .attr("fill", "transparent")
-            .attr("stroke", "url(#curveGradient)")
-            .attr("box-shadow", "1px 1px 4px #777")
-        }
-    }
 
     function onCopy() {
         navigator
@@ -157,23 +92,24 @@ function TrackingPoint(props: Props) {
                 </Popup>
             </Button.Group>
         </div>
-        <div className={styles.stats}>
-            <div className={styles.stats__visitors}>
-                <svg ref={visitorsRef}>
-                    <defs>
-                        <linearGradient id="curveGradient">
-                            <stop offset="0%" stopColor="orange"/>
-                            <stop offset="100%" stopColor="tomato"/>
-                        </linearGradient>
-                        <filter id="shadow">
-                            <feDropShadow dx="1" dy="1" stdDeviation="4" floodColor="#777777"/>
-                        </filter>
-                    </defs>
-                    <g color="grey" className="axisBottom"></g>
-                    <g color="grey" className="axisLeft"></g>
-                    <path className="curve" d="" filter="url(#shadow)" strokeLinecap="round"/>
-                </svg>
+        {
+            data && data.tracker.visitors.total > 0 && <div className={styles.visitors_counter_wrapper}>
+                <span>
+                    <span className={styles.counter}>{data.tracker.visitors.total}</span>
+                    <span>Visites enrégistrées</span>
+                </span>
             </div>
+        }
+        <div className={styles.stats}>
+            {data && <div className={styles.stats__visitors}>
+                <VisitorChart visitors={data.tracker.visitors} from={from} to={to} periodSize={timeframe(frameSize[0] as number, frameSize[1] as string)} />
+            </div>}
+            {data && <div className={styles.stats__browsers}>
+                <BrowserChart visitors={data.tracker.visitors} from={from} to={to} periodSize={timeframe(frameSize[0] as number, frameSize[1] as string)} />
+            </div>}
+            {data && <div className={styles.stats__oses}>
+                <OsChart visitors={data.tracker.visitors} from={from} to={to} periodSize={timeframe(frameSize[0] as number, frameSize[1] as string)} />
+            </div>}
         </div>
     </div>
 }

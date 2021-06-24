@@ -1,6 +1,7 @@
 .page {
     .head {
         padding: 16px 8px;
+        margin: 16px 0px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -13,20 +14,55 @@
     }
 }
 
+.visitors_counter_wrapper {
+    margin: 24px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+
+    .p {
+        display: inline;
+    }
+
+    span {
+        color: #636363;
+        font-weight: 600;
+        font-size: 18px;
+        margin: 8px;
+    }
+    .counter {
+        font-weight: normal;
+        font-size: 56px;
+        margin: 0px 8px;
+    }
+}
 .stats {
     min-height: 160px;
     padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 16px;
+    row-gap: 16px;
 
-    .stats__visitors {
-        width: 100%;
+    .stats__visitors, .stats__browsers, .stats__oses {
         background: white;
         border-radius: 8px;
-        box-shadow: 1px 1px 16px #ddd;
+        box-shadow: 1px 1px 4px #ddd;
 
         svg {
             width: 100%;
             height: 400px;
             overflow: scroll;
+
+            * {
+                font-family: 'Lato';
+                font-weight: 600;
+            }
         }
+    }
+
+    .stats__visitors {
+        grid-area: 1 / span 2;
     }
 }
