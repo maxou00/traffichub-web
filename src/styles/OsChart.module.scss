@@ -1,0 +1,40 @@
+.legend {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+
+    .os {
+        margin: 4px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .colour {
+            display: block;
+            width: 32px;
+            height: 24px;
+            border-radius: 2px;
+            background: grey;
+            margin: 4px;
+            box-shadow: 1px 1px 4px #ccc;
+        }
+
+        .name {
+            font-weight: bold;
+            font-size: 14px;
+            margin: 4px;
+            color: grey;
+        }
+
+        .total {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 4px;
+            color: #636363;
+        }
+    }
+
+}

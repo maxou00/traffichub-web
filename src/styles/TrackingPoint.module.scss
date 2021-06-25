@@ -42,13 +42,14 @@
     padding: 8px;
     display: grid;
     grid-template-columns: auto;
-    grid-template-rows: repeat(3, 400px);
+    grid-template-rows: repeat(3, auto);
     gap: 8px 0px;
 
     .stats__visitors, .stats__browsers, .stats__oses {
         background: white;
         border-radius: 8px;
         //box-shadow: 1px 1px 4px #ddd;
+        position: relative;
 
         svg {
             width: 100%;
@@ -81,7 +82,7 @@
     .stats {
         padding: 24px;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 400px);
+        grid-template-rows: repeat(2, auto);
         gap: 16px 16px;
         
         .stats__visitors {
