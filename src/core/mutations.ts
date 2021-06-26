@@ -50,21 +50,15 @@ export const SIGNIN_MUTATION = gql`
     }
 `;
 
-export const CREATE_PROJECT_MUTATION = gql`
-    mutation CreateProjectMutation(
-        $projectTitle: String!
-        $projectComment: String!
-        $firstTrackerTitle: String!
-        $firstTrackerUrl: String!
+export const CREATE_TRACKER_MUTATION = gql`
+    mutation CreateProjectMutation (
+        $title: String!
+        $url: String!
     ) {
-        createProject(
-            project: {
-                title: $projectTitle,
-                comment: $projectComment
-            },
-            firstTracker: {
-                title: $firstTrackerTitle,
-                url: $firstTrackerUrl
+        createTracker(
+            tracker: {
+                title: $title,
+                url: $url
             }
         ) {
             id

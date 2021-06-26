@@ -3,8 +3,7 @@ import styles from "../styles/AppDashboard.module.scss";
 import { Header, Icon, Container } from "semantic-ui-react";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
 import cn from "classnames";
-import ProjectList from "./ProjectList";
-import SingleProject from "./SingleProject";
+import TrackersList from "./TrackerList";
 import { useEffect } from "react";
 
 function AppDashboard() {
@@ -15,11 +14,6 @@ function AppDashboard() {
                 me {
                     id
                     fullName
-                    projects {
-                        id
-                        title
-                        comment
-                    }
                 }
             }
         `
@@ -60,13 +54,8 @@ function AppDashboard() {
         </div>
         <div className={styles.content}>
             <Switch>
-                <Route path="/app/projects/:id" render={(props) => {
-                    return <SingleProject id={props.match.params.id} />
-                }} />
                 <Route path="/app">
-                    <Container>
-                        <ProjectList />
-                    </Container>
+                    <TrackersList />
                 </Route>
             </Switch>
         </div>

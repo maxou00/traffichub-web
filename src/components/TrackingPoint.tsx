@@ -60,7 +60,7 @@ function TrackingPoint(props: Props) {
     ];
     return <div className={styles.page}>
         <div className={styles.head}>
-            <h3>{props.project.title} <span>/</span> {props.tracker.title}</h3>
+            <h3>{props.tracker.title}</h3>
             <Button.Group>
                 <Popup wide trigger={
                     <Button onClick={onCopy}>

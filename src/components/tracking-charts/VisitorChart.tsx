@@ -101,6 +101,6 @@ export default function VisitorChart(props: Props) {
         </defs>
         <g color="grey" className="axisBottom"></g>
         <g color="grey" className="axisLeft"></g>
-        <path className="curve" d="" filter="url(#shadow)" strokeLinecap="round" />
+        <path className="curve" d="" strokeLinecap="round" />
     </svg>
 }
