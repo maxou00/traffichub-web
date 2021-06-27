@@ -1,8 +1,8 @@
-$font-head: 'Nunito Sans';
-$font-subhead: 'Amiri';
-$font-text: 'Imprima';
+$font-head: "Montserrat";
+$font-subhead: "Lora";
+$font-text: "Hind Madurai";
 
-$primary: teal;
+$primary:#053A76;//#B90351;//#7d537d;//teal;
 $secondary: #ff9900;
 
 $page-color: #f7f7f7;
@@ -15,3 +15,16 @@ $blue: #3282b8;
 $winter: #bbe1fa;
 $white: #ddd;
 $orange: #ff9900;
+
+* {
+    font-family: $font-text;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $font-head;
+}

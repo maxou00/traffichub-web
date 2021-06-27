@@ -4,7 +4,9 @@
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-rows: 44px auto;
+    grid-template-rows: 56px auto;
+    grid-template-columns: auto;
+    gap: 0px 0px;
     background-color: $page-color;
 }
 
@@ -12,14 +14,18 @@
     background: $primary;
     margin: 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: 250px auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    grid-area: 1 / 2 / span 1;
 
     .logoWrapper {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        font-family: $font-head, sans-serif;
 
         * {
             color: white;
@@ -39,6 +45,7 @@
 
         .item {
             margin: 0px 16px;
+            font-size: 18px;
         }
 
         .username {
@@ -47,10 +54,57 @@
     }
 }
 
+.side {
+    position: absolute;
+    z-index: 900;
+    top: 0;
+    left: -1000px;
+    height: 100%;
+    width: 250px;
+    opacity: 0;
+    visibility: hidden;
+    background-color: white;
+    box-shadow: 1px 0px 16px #777;
+    transition: all 500ms linear;
+
+    &[data-active="true"] {
+        left: 0px;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
 .content {
+    grid-area: 2 / 2 / span 1 / span 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     overflow: auto;
+}
+
+@media screen and (min-width: 940px) {
+
+    .dashboard {
+        grid-template-columns: 250px auto;
+    }
+
+    .header {
+        grid-area: 1 / 1 / span 1 / span 2;
+    }
+
+    .side {
+        grid-area: 2 / 1 / span 1;
+        position:relative;
+        left: 0;
+        opacity: 1;
+        visibility: visible;
+        width: auto;
+        box-shadow: none;
+    }
+
+    .content {
+        grid-area: 2 / 2 / span 1;
+    }
+
 }

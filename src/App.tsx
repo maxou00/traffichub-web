@@ -9,19 +9,20 @@ import AppDashboard from './components/AppDashboard';
 function App() {
   return (
     <ApolloProvider client={apolloClient}>
-    <BrowserRouter basename="/">
-      <Switch>
-        <Route path="/signup">
-          <Signup/>
-        </Route>
-        <Route path="/login">
-          <Login/>
-        </Route>
-        <Route path="/app">
-          <AppDashboard/>
-        </Route>
-      </Switch>
-    </BrowserRouter>
+      <BrowserRouter basename="/">
+        <Switch>
+          <Route path="/signup">
+            <Signup />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/app">
+            <AppDashboard />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+      <div id="modal-root"></div>
     </ApolloProvider>
   );
 }

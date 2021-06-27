@@ -111,7 +111,7 @@ export default function Signup() {
                     <Form.Button fluid loading={loading} type="submit" color="blue" >Créer mon compte</Form.Button>
                     <div style={{ height: '32px' }}></div>
                     <div className={styles.helps}>
-                        <Link to="/auth/login">Déjà inscrit? Connectez-vous</Link>
+                        <Link to="/login">Déjà inscrit? Connectez-vous</Link>
                     </div>
                 </Form>
             </div>

@@ -10,6 +10,7 @@
 
     * {
         box-sizing: border-box;
+        color: $primary;
     }
     
     .left {
@@ -73,6 +74,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    color: $primary;
 }
 
 .login_form {
