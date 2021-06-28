@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import "semantic-ui-css/semantic.min.css";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -19,6 +19,9 @@ function App() {
           </Route>
           <Route path="/app">
             <AppDashboard />
+          </Route>
+          <Route path="/">
+            <Redirect to="/app"/>
           </Route>
         </Switch>
       </BrowserRouter>
