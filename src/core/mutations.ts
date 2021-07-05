@@ -4,15 +4,17 @@ export const SIGNUP_MUTATION = gql`
     mutation SignupMutation(
         $firstName: String!
         $lastName: String!
+        $gender: String!
         $email: String!
         $password: String!
         $confirmPassword: String!
     ) {
-        signup(
-            firstName: $firstName
+        signin(
+            firstName: $firstName,
             lastName: $lastName
-            email: $email
-            password: $password
+            gender: $gender,
+            email: $email,
+            password: $password,
             confirmPassword: $confirmPassword
         ) {
             token
@@ -49,6 +51,7 @@ export const SIGNIN_MUTATION = gql`
         }
     }
 `;
+
 
 export const CREATE_TRACKER_MUTATION = gql`
     mutation CreateProjectMutation (

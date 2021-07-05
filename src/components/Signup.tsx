@@ -3,12 +3,33 @@ import styles from "../styles/Login.module.scss";
 import { Form } from "semantic-ui-react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { SIGNUP_MUTATION } from "../core/mutations";
+import { appState } from "../core/AppState";
+import { AUTH_TOKEN } from "../core";
 
 export default function Signup() {
     const [loading, setLoading] = React.useState(false);
     const [gender, setGender] = React.useState("male");
     const [errors, setErrors] = React.useState<any>({});
+    const [formState, setFormState] = React.useState<any>({});
     const router = useHistory();
+
+    const [signupCall, result] = useMutation(SIGNUP_MUTATION, {
+        variables: formState,
+        onCompleted: async ({ signup }) => {
+            appState.setUser(signup.profile)
+            localStorage.setItem(AUTH_TOKEN, signup.token);
+            setTimeout(() => {
+                setLoading(false);
+                router.replace("/app");
+            }, 2000);
+        },
+        onError: (err) => {
+            console.log(err);
+            setLoading(false);
+        }
+    })
 
     function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
         ev.preventDefault();
@@ -47,31 +68,9 @@ export default function Signup() {
             return;
         }
 
+        setFormState(signup);
         setLoading(true);
-        fetch(
-            "/api/auth/signup",
-            {
-                body: JSON.stringify(signup),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'POST'
-            }
-        )
-            .then((res) => res.json())
-            .then((done) => {
-                setLoading(false);
-                if (done.success) {
-                    if (window) {
-                        window.localStorage.setItem("profile", JSON.stringify(done.data.profile));
-                        window.localStorage.setItem("token", done.data.token);
-                    }
-                    router.replace("/app/dashboard");
-                }
-                else {
-                    setErrors(done.errors);
-                }
-            })
+        signupCall({ variables: signup });
     }
 
     return <div className={styles.login}>
