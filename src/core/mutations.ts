@@ -9,7 +9,7 @@ export const SIGNUP_MUTATION = gql`
         $password: String!
         $confirmPassword: String!
     ) {
-        signin(
+        signup(
             firstName: $firstName,
             lastName: $lastName
             gender: $gender,
