@@ -19,7 +19,7 @@ function TrackingPoint(props: Props) {
 
     const [from, setFrom] = React.useState(new Date(Date.parse("2021-06-20")));
     const [to, setTo] = React.useState(new Date(Date.now()));
-    const [frameSize, setFrameSize] = React.useState([6, "h"]);
+    const [frameSize, setFrameSize] = React.useState([30, "m"]);
 
     const { loading, data, error, refetch } = useQuery(gql`
         query getTrackerStats($id: String!, $timeframe: Int){
